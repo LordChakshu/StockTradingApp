@@ -26,8 +26,9 @@ const userProfileSchema=new Schema({
         type:Number,
         required:true
     },
-   /* portfolio:[userPortfolioSchema],
+   /*portfolio:[userPortfolioSchema],
     transaction:[transactionSchema]*/
+
 
 },{timestamps:true});
 
