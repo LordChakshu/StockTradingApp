@@ -4,16 +4,16 @@
   "description": "Real Time Stock trading app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "author": "Chakshu chaturvedi",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
     "mongodb": "^5.7.0",
-    "mongoose": "^7.4.1"
-  },
-  "devDependencies": {
+    "mongoose": "^7.4.1",
     "nodemon": "^3.0.1"
   }
 }
