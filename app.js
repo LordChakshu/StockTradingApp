@@ -6,7 +6,8 @@ const UserProfile=require('./models/user.js');
 const authRoutes=require('./routes/authRoutes');
 
 const app=express();
-
+//Express JSON parser middleware
+app.use(express.json());
 // Connecting to MongoDB
 
 mongoose.connect(db, {useNewUrlParser: true}
@@ -16,7 +17,7 @@ mongoose.connect(db, {useNewUrlParser: true}
         ).catch(err => console.log(err));
 
 
-app.get('/',(req,res)=>
+/*app.get('/',(req,res)=>
 {
    const user=new UserProfile({
     firstName:"chakshu2",
@@ -30,8 +31,9 @@ app.get('/',(req,res)=>
    }).catch((err)=>{
     console.log(err);
    });
-});
+});*/
 
+//Auth midleware
 app.use(authRoutes);
 
 
