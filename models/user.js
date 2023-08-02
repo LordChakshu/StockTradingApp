@@ -4,14 +4,14 @@ const Schema = mongoose.Schema;
 
 const userProfileSchema=new Schema({
 
-    firstName:{
+    /*firstName:{
         type:String,
         required:true,
     },
     lastName:{
         type:String,
         required:true,
-    },
+    },*/
     email:{
         type:String,
         required:true,
@@ -21,12 +21,13 @@ const userProfileSchema=new Schema({
     password:{
         type:String,
         required:true,
+        minlength:6 
     },
-    balance:{
+    /*balance:{
         type:Number,
         required:true
     },
-   /*portfolio:[userPortfolioSchema],
+    portfolio:[userPortfolioSchema],
     transaction:[transactionSchema]*/
 
 
