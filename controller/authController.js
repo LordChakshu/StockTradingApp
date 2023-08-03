@@ -5,6 +5,18 @@ const ValidRegisterInput=require('../validation/Register');
 const ValidLoginInput=require('../validation/login');
 
 const bcrypt=require('bcrypt');
+const jwt=require('jsonwebtoken');
+const cookie=require('js-cookie');
+
+const tokenExpires=24*60*60;
+//creating token
+const createToken=(id)=>{
+
+    return jwt.sign({id},'Horcruxes',{  //(id as payload, horcrux as secret key, expiretime)
+        expiresIn:tokenExpires
+    })
+}
+
 
 
 module.exports.signup_post= async (req,res)=>{
@@ -32,7 +44,10 @@ module.exports.signup_post= async (req,res)=>{
                  email:req.body.email,
                  password:hashedPassword
             });
-            return res.status(201).json(newUser);
+
+            const token=createToken(newUser._id);
+            res.cookie('jwt',token,{httpOnly:true, maxAge:tokenExpires*1000});
+            return res.status(201).json({newUser:newUser._id});
         }
     }
 
@@ -44,5 +59,23 @@ module.exports.login_post= async (req,res)=>{
     if(!isValid){
      return res.status(400).json(error);
     }
-    
+
+    const email=req.body.email;
+    const password=req.body.password;
+
+    const user= await User.findOne({email});
+
+    if(!user)
+    {
+        res.status(400).json('User Not found');
+    }
+    else{
+      const auth = await bcrypt.compare(password,user.password);
+      if(auth)
+      {
+        res.status(200).json({user:user._id});
+      }
+      res.status(400).json("incorrect password");
+    }
+
 }
