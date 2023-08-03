@@ -4,14 +4,14 @@ const Schema = mongoose.Schema;
 
 const userProfileSchema=new Schema({
 
-    /*firstName:{
+    firstName:{
         type:String,
         required:true,
     },
     lastName:{
         type:String,
         required:true,
-    },*/
+    },
     email:{
         type:String,
         required:true,
