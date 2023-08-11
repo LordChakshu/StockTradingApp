@@ -10,9 +10,9 @@ const cookie=require('js-cookie');
 
 const tokenExpires=24*60*60;
 //creating token
-const createToken=(id)=>{
+const createToken=(_id)=>{
 
-    return jwt.sign({id},'Horcruxes',{  //(id as payload, horcrux as secret key, expiretime)
+    return jwt.sign({_id},'Horcruxes',{  //(id as payload, horcrux as secret key, expiretime)
         expiresIn:tokenExpires
     })
 }
@@ -25,10 +25,9 @@ module.exports.signup_post= async (req,res)=>{
     
     if(!isValid)
     {
-     console.log(errors);
      return res.status(400).json(errors);
     }
-
+    
     const user= await User.findOne({email:req.body.email});
         
         if(user){
@@ -49,7 +48,8 @@ module.exports.signup_post= async (req,res)=>{
             res.cookie('jwt',token,{httpOnly:true, maxAge:tokenExpires*1000});
             return res.status(201).json({newUser:newUser._id});
         }
-    }
+    
+}
 
 
 module.exports.login_post= async (req,res)=>{
@@ -73,7 +73,8 @@ module.exports.login_post= async (req,res)=>{
       const auth = await bcrypt.compare(password,user.password);
       if(auth)
       {
-        res.status(200).json({user:user._id});
+        const token = jwt.sign({ userId: user._id }, 'Horcruxes', { expiresIn: '1h' });
+        return res.status(200).json({ token }); 
       }
       res.status(400).json("incorrect password");
     }
